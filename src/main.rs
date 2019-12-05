@@ -1,18 +1,18 @@
-mod fuel;
+mod intcode;
+mod util;
 
-use fuel::*;
+use intcode::*;
 
 use std::fs::File;
 use std::io::prelude::*;
 
 fn main() -> std::io::Result<()> {
 
-    let mut fuel_file : File = File::open("/home/cameron/PersonalProjects/advent_of_code_19/resrcs/input_1.txt")?;
-    let mut fuel_file_contents = String::new();
-    fuel_file.read_to_string(&mut fuel_file_contents)?;
+    let mut prog_file : File = File::open("/home/cameron/PersonalProjects/advent_of_code_19/resrcs/input_2.txt")?;
+    let mut prog = String::new();
+    prog_file.read_to_string(&mut prog)?;
 
-    let fuel_needed = fuel_file_contents.lines().filter_map(|x| x.parse::<usize>().ok()).map(calc_from_mass).map(correct_for_rocket_tyranny).sum::<usize>();
-    println!("The amount of fuel you need is: {} units", fuel_needed);
+    println!("The program returned: {}", exec_intcode(parse_to_mem(prog), 0));
 
     Ok(())
 }
